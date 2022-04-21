@@ -16,11 +16,14 @@ public class PlayerController : MonoBehaviour
 	private Vector3 moveDirection = Vector3.zero;
 	public CharacterController controller;
 
+	Health health;
+
 	void Start()
 	{
 		// Store reference to attached component
 		controller = GetComponent<CharacterController>();
 		Cursor.visible = false;
+		health = GetComponent<Health>();
 
 	}
 
@@ -48,8 +51,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (hit.tag == "Hazard")
 		{
-			Cursor.visible = true;
-			SceneManager.LoadScene("MainMenu");
+			KillPlayer();
 		}
 		else if (hit.tag == "Point")
 		{
@@ -57,5 +59,15 @@ public class PlayerController : MonoBehaviour
             Destroy(hit.gameObject);
 
 		}
+		else if (hit.tag == "Damage")
+		{
+			health.OnDamage(20);
+		}
+	}
+
+	public void KillPlayer()
+	{
+		Cursor.visible = true;
+		SceneManager.LoadScene("MainMenu");
 	}
 }
